@@ -206,7 +206,7 @@
 #loading .loading-indicator{
 	border:1px solid #fff;
 	color:#666;
-	background:white url('images/groupoffice.gif') 20px 10px no-repeat;
+	background:white url('logos/primemkt.gif') 20px 10px no-repeat;
 	font:bold 12px "Lucida Sans Unicode","Lucida Grande","Mukti Narrow", sans-serif;
 	padding:60px 10px 10px 20px;
 	margin:0;
@@ -234,7 +234,7 @@
 	position:absolute;
 	top:12px;
 	left:20px;
-	background: url('images/go_logo.gif')  no-repeat;
+	background: url('logos/go_logo.gif')  no-repeat;
 	height: 32px;	
 	width: 150px;
 	font: 20px bold Helvetica, Arial, sans-serif;
@@ -670,7 +670,7 @@ a.normal-link:hover{
 and about screen. Please leave the about screen logo original!
 */
 .go-app-logo, .go-about-logo{
-	background: url('images/groupoffice.gif');
+	background: url('logos/primemkt.gif');
 	width:217px;
 	height:47px;
 	background-repeat:no-repeat;
