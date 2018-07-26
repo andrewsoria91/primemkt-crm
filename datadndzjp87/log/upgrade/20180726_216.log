@@ -1,0 +1,416 @@
+<pre>Updating Group-Office database
+Excuting query: ALTER TABLE `cal_events` CHANGE `files_folder_id` `files_folder_id` INT( 11 ) NOT NULL DEFAULT '0';
+Excuting query: UPDATE `go_users` SET `timezone` = 'Europe/Amsterdam' WHERE `go_users`.`timezone` = 'localtime';
+Excuting query: UPDATE ab_companies SET color='000000' WHERE color IS NULL OR color='';
+Excuting query: ALTER TABLE `ab_companies` CHANGE `color` `color` CHAR( 6 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '000000';
+Excuting query: ALTER TABLE `ta_tasks` CHANGE `uuid` `uuid` VARCHAR(255) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT '';
+Excuting query: ALTER TABLE `cal_events` CHANGE `uuid` `uuid` VARCHAR(255) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT '';
+Excuting query: ALTER TABLE `ab_contacts` CHANGE `uuid` `uuid` VARCHAR(255) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT '';
+Excuting query: TRUNCATE TABLE `go_holidays`;
+Excuting query: insert ignore into go_acl (acl_id, user_id, level) select cat.acl_id, cal.user_id, '50' from cal_categories cat inner join cal_calendars cal on cat.calendar_id=cal.id
+Excuting query: ALTER TABLE `cf_fields` CHANGE `category_id` `category_id` INT(11) NOT NULL DEFAULT '0';
+Excuting query: ALTER TABLE `em_accounts` ADD INDEX(`acl_id`);
+Excuting query: ALTER TABLE `bm_categories` ADD `show_in_startmenu` BOOLEAN NOT NULL DEFAULT FALSE ;
+Excuting query: ALTER TABLE `cal_categories` ADD `user_id` INT NOT NULL ; 
+Excuting query: update cal_categories set user_id = (select user_id from cal_calendars where id=cal_categories.calendar_id) where calendar_id>0;
+Excuting query: ALTER TABLE `em_labels` ENGINE = InnoDB;
+Excuting query: update `cf_enabled_blocks` set `model_type_name` = replace(`model_type_name`,'_','\\');
+Excuting query: update `cf_enabled_categories` set `model_name` = replace(`model_name`,'_','\\');
+Excuting query: INSERT INTO `go_model_types` (
+`id` ,
+`model_name`
+)
+VALUES (
+null, 'GO\Comments\Model\Comment'
+);
+Excuting query: update `cf_disable_categories` set `model_name` = replace(`model_name`,'_','\\');
+Excuting query: update cal_events set end_time=end_time+60 where all_day_event=1 and date_format(from_unixtime(end_time), '%H:%i')='23:58';
+Excuting query: DELETE FROM `go_model_types` WHERE `model_name` = 'GO\Comments\Model\Comment';
+Excuting query: ALTER TABLE `cal_calendars` ADD `version` INT UNSIGNED NOT NULL DEFAULT '1';
+Excuting query: ALTER TABLE `ta_tasklists` ADD `version` INT UNSIGNED NOT NULL DEFAULT '1';
+Excuting query: ALTER TABLE `ab_sent_mailings` ADD `temp_pass` VARCHAR(255) NULL ;
+Excuting query: DELETE FROM `go_state` WHERE `name` = 'go-checker-panel'
+Excuting query: ALTER TABLE `ab_contacts` CHANGE `department` `department` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '';
+Excuting query: ALTER TABLE `em_accounts` ADD `signature_below_reply` BOOLEAN NOT NULL DEFAULT FALSE ;
+Excuting query: UPDATE `cf_fields` SET datatype='GO\\Phpcustomfield\\Customfieldtype\\Php' WHERE datatype='GO\\Customfields\\Customfieldtype\\Php';
+Excuting query: ALTER TABLE `fs_versions` ADD `size_bytes` BIGINT NOT NULL DEFAULT '0' ;
+Excuting query: ALTER TABLE `fs_folders` ADD `quota_user_id` INT NOT NULL DEFAULT '0' AFTER `muser_id`;
+Excuting query: update fs_folders set quota_user_id=user_id
+Running /home/primemkt/public_html/erp/modules/files/install/updatescripts/4_install_quota_cron.php
+Excuting query: delete FROM `go_users_groups` where group_id not in (select id from go_groups);
+Excuting query: delete FROM `go_acl` where user_id=0 AND group_id not in (select id from go_groups)
+Excuting query: ALTER TABLE `go_cron` ADD `params` TEXT NULL ;
+Excuting query: TRUNCATE TABLE `go_holidays`;
+Excuting query: DELETE FROM `go_state` WHERE name='go-checker-panel';
+Excuting query: ALTER TABLE `go_users` CHANGE `thousands_separator` `thousands_separator` VARCHAR(1) NOT NULL DEFAULT '.';
+Excuting query: ALTER TABLE `go_users` CHANGE `decimal_separator` `decimal_separator` VARCHAR(1) NOT NULL DEFAULT ','
+Excuting query: ALTER TABLE `go_users` ADD `popup_emails` tinyint(1) NOT NULL DEFAULT '0' AFTER `popup_reminders`;
+Excuting query: UPDATE `go_users` SET `popup_emails` = `popup_reminders`
+Excuting query: ALTER TABLE `go_users` ADD `email2` VARCHAR(100) NULL DEFAULT NULL;
+Excuting query: ALTER TABLE `go_users` CHANGE `email2` `email2` VARCHAR(100) NULL DEFAULT NULL;
+Excuting query: ALTER TABLE `cal_events` ADD COLUMN `timezone` VARCHAR(64) NOT NULL DEFAULT '' AFTER `end_time`;
+Excuting query: UPDATE cal_events JOIN go_users ON cal_events.user_id = go_users.id SET cal_events.timezone = go_users.timezone;
+Running /home/primemkt/public_html/erp/modules/calendar/install/updatescripts/5_revert_rrule_shifting.php
+Excuting query: ALTER TABLE `em_accounts` ADD `imap_encryption` CHAR(3) NOT NULL AFTER `password`;
+Excuting query: ALTER TABLE `em_accounts` CHANGE `use_ssl` `deprecated_use_ssl` TINYINT(1) NOT NULL DEFAULT '0';
+Running /home/primemkt/public_html/erp/modules/email/install/updatescripts/2_imap_encryption.php
+Updating SSL status of Email accounts ....
+
+Excuting query: ALTER TABLE `fs_files` ADD `content_expire_date` int(11) NULL DEFAULT NULL AFTER `delete_when_expired`;
+Excuting query: ALTER TABLE `em_accounts` ADD `smtp_allow_self_signed` BOOLEAN NOT NULL DEFAULT FALSE AFTER `smtp_encryption`;
+Excuting query: ALTER TABLE `em_accounts` ADD `imap_allow_self_signed` BOOLEAN NOT NULL DEFAULT TRUE AFTER `imap_encryption`;
+Excuting query: ALTER TABLE `ta_tasks` CHANGE `name` `name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+Excuting query: 
+Excuting query: ALTER DATABASE `primemkt_crm` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: SET foreign_key_checks = 0;
+Excuting query: ALTER TABLE `cf_go_users` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_go_users` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_acl` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_acl` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_acl_items` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_acl_items` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_address_format` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_address_format` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_advanced_searches` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_advanced_searches` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_cache` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_cache` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+SQLSTATE[42000]: Syntax error or access violation: 1071 Specified key was too long; max key length is 767 bytes
+Query: ALTER TABLE `go_cache` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;Excuting query: ALTER TABLE `go_cf_setting_tabs` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_cf_setting_tabs` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_countries` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_countries` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_cron` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_cron` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_cron_groups` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_cron_groups` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_cron_users` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_cron_users` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_db_sequence` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_db_sequence` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_groups` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_groups` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_holidays` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_holidays` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_link_descriptions` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_link_descriptions` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_link_folders` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_link_folders` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_links_go_users` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_links_go_users` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_log` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_log` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_mail_counter` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_mail_counter` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_model_types` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_model_types` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_modules` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_modules` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_reminders` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_reminders` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_reminders_users` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_reminders_users` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_saved_exports` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_saved_exports` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_saved_search_queries` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_saved_search_queries` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_search_cache` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_search_cache` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_search_sync` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_search_sync` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_settings` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_settings` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_state` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_state` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_users` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_users` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_users_groups` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_users_groups` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_working_weeks` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_working_weeks` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: SET foreign_key_checks = 0;
+Excuting query: ALTER TABLE `co_categories` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `co_categories` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `co_comments` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `co_comments` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: SET foreign_key_checks = 0;
+Excuting query: ALTER TABLE `em_accounts` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `em_accounts` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `em_accounts_collapsed` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `em_accounts_collapsed` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `em_accounts_sort` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `em_accounts_sort` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `em_aliases` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `em_aliases` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `em_contacts_last_mail_times` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `em_contacts_last_mail_times` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `em_filters` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `em_filters` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `em_folders` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `em_folders` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `em_folders_expanded` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `em_folders_expanded` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `em_labels` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `em_labels` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `em_links` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `em_links` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `em_messages_cache` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `em_messages_cache` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `em_portlet_folders` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `em_portlet_folders` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `emp_folders` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `emp_folders` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_links_em_links` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_links_em_links` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: SET foreign_key_checks = 0;
+Excuting query: ALTER TABLE `cf_ta_tasks` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_ta_tasks` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_links_ta_tasks` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_links_ta_tasks` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ta_categories` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ta_categories` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ta_portlet_tasklists` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ta_portlet_tasklists` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ta_settings` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ta_settings` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ta_tasklists` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ta_tasklists` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ta_tasks` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ta_tasks` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: SET foreign_key_checks = 0;
+Excuting query: ALTER TABLE `cal_calendar_user_colors` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cal_calendar_user_colors` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cal_calendars` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cal_calendars` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cal_categories` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cal_categories` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cal_events` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cal_events` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cal_events_declined` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cal_events_declined` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+SQLSTATE[42000]: Syntax error or access violation: 1071 Specified key was too long; max key length is 767 bytes
+Query: ALTER TABLE `cal_events_declined` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;Excuting query: ALTER TABLE `cal_exceptions` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cal_exceptions` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cal_group_admins` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cal_group_admins` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cal_groups` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cal_groups` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cal_participants` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cal_participants` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cal_settings` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cal_settings` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cal_views` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cal_views` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cal_views_calendars` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cal_views_calendars` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cal_views_groups` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cal_views_groups` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cal_visible_tasklists` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cal_visible_tasklists` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cf_cal_calendars` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_cal_calendars` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cf_cal_events` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_cal_events` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_links_cal_events` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_links_cal_events` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: SET foreign_key_checks = 0;
+Excuting query: ALTER TABLE `cf_blocks` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_blocks` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cf_categories` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_categories` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cf_disable_categories` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_disable_categories` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cf_enabled_blocks` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_enabled_blocks` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cf_enabled_categories` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_enabled_categories` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cf_fields` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_fields` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cf_select_options` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_select_options` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cf_select_tree_options` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_select_tree_options` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cf_tree_select_options` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_tree_select_options` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: SET foreign_key_checks = 0;
+Excuting query: ALTER TABLE `ab_addressbooks` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ab_addressbooks` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ab_addresslist_companies` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ab_addresslist_companies` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ab_addresslist_contacts` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ab_addresslist_contacts` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ab_addresslists` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ab_addresslists` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ab_companies` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ab_companies` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ab_contacts` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ab_contacts` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ab_contacts_vcard_props` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ab_contacts_vcard_props` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ab_default_email_account_templates` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ab_default_email_account_templates` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ab_default_email_templates` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ab_default_email_templates` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ab_email_templates` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ab_email_templates` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ab_portlet_birthdays` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ab_portlet_birthdays` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ab_search_queries` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ab_search_queries` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ab_sent_mailing_contacts` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ab_sent_mailing_contacts` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `ab_sent_mailings` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `ab_sent_mailings` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cf_ab_companies` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_ab_companies` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cf_ab_contacts` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_ab_contacts` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_links_ab_companies` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_links_ab_companies` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_links_ab_contacts` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_links_ab_contacts` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `su_announcements` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `su_announcements` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `su_latest_read_announcement_records` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `su_latest_read_announcement_records` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `su_notes` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `su_notes` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `su_rss_feeds` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `su_rss_feeds` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `su_visible_calendars` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `su_visible_calendars` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `su_visible_lists` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `su_visible_lists` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: SET foreign_key_checks = 0;
+Excuting query: ALTER TABLE `cf_fs_files` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_fs_files` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `cf_fs_folders` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_fs_folders` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `fs_bookmarks` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `fs_bookmarks` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `fs_filehandlers` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `fs_filehandlers` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `fs_files` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `fs_files` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `fs_folder_pref` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `fs_folder_pref` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `fs_folders` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `fs_folders` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `fs_new_files` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `fs_new_files` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `fs_notification_messages` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `fs_notification_messages` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `fs_notifications` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `fs_notifications` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `fs_search_queries` ENGINE=InnoDB;
+SQLSTATE[42S02]: Base table or view not found: 1146 Table 'primemkt_crm.fs_search_queries' doesn't exist
+Query: ALTER TABLE `fs_search_queries` ENGINE=InnoDB;Excuting query: ALTER TABLE `fs_search_queries` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+SQLSTATE[42S02]: Base table or view not found: 1146 Table 'primemkt_crm.fs_search_queries' doesn't exist
+Query: ALTER TABLE `fs_search_queries` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;Excuting query: ALTER TABLE `fs_shared_cache` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `fs_shared_cache` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `fs_shared_root_folders` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `fs_shared_root_folders` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `fs_status_history` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `fs_status_history` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `fs_statuses` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `fs_statuses` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `fs_templates` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `fs_templates` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `fs_versions` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `fs_versions` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_links_fs_files` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_links_fs_files` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_links_fs_folders` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_links_fs_folders` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: SET foreign_key_checks = 0;
+Excuting query: ALTER TABLE `cf_no_notes` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `cf_no_notes` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_links_no_notes` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `go_links_no_notes` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `no_categories` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `no_categories` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `no_notes` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `no_notes` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: SET foreign_key_checks = 0;
+Excuting query: ALTER TABLE `bm_bookmarks` DROP INDEX content;
+SQLSTATE[42000]: Syntax error or access violation: 1091 Can't DROP 'content'; check that column/key exists
+Query: ALTER TABLE `bm_bookmarks` DROP INDEX content;Excuting query: ALTER TABLE `bm_bookmarks` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `bm_bookmarks` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `bm_categories` ENGINE=InnoDB;
+Excuting query: ALTER TABLE `bm_categories` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+Excuting query: ALTER TABLE `go_cache` CHANGE `key` `key` VARCHAR(190);
+Excuting query: SET foreign_key_checks = 1;
+Excuting query: SET foreign_key_checks = 1;
+Excuting query: ALTER TABLE `em_links` CHANGE `uid` `uid` VARCHAR(190);
+Excuting query: SET foreign_key_checks = 1;
+Excuting query: ALTER TABLE `ta_tasks` CHANGE `uuid` `uuid` VARCHAR(190);
+Excuting query: SET foreign_key_checks = 1;
+Excuting query: SET foreign_key_checks = 1;
+Excuting query: SET foreign_key_checks = 1;
+Excuting query: ALTER TABLE `ab_contacts` CHANGE `uuid` `uuid` VARCHAR(190);
+Excuting query: SET foreign_key_checks = 1;
+Excuting query: ALTER TABLE `fs_files` CHANGE `name` `name` VARCHAR(190);
+Excuting query: ALTER TABLE `fs_folders` CHANGE `name` `name` VARCHAR(190);
+Excuting query: SET foreign_key_checks = 1;
+Excuting query: SET foreign_key_checks = 1;
+Excuting query: SET foreign_key_checks = 1;
+Running /home/primemkt/public_html/erp/install/updatescripts/16_update_db_collation_utf8_general_ci_to_utf8mb4_unicode_ci.php
+ALTER DATABASE `primemkt_crm` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+SET foreign_key_checks = 0;
+SHOW TABLE STATUS  WHERE Comment != 'VIEW' AND INSTR(`Collation`, 'utf8mb4_') != 1;
+ALTER TABLE `ab_sent_mailing_companies` ENGINE=InnoDB;
+SHOW COLUMNS FROM  `ab_sent_mailing_companies` WHERE `Field` = 'sent_mailing_id';
+SHOW COLUMNS FROM  `ab_sent_mailing_companies` WHERE `Field` = 'company_id';
+ALTER TABLE `ab_sent_mailing_companies` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `cal_events_declined` ENGINE=InnoDB;
+SHOW COLUMNS FROM  `cal_events_declined` WHERE `Field` = 'uid';
+ALTER TABLE `cal_events_declined` CHANGE `uid` `uid` VARCHAR(190);
+SHOW COLUMNS FROM  `cal_events_declined` WHERE `Field` = 'email';
+ALTER TABLE `cal_events_declined` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `go_cache` ENGINE=InnoDB;
+SHOW COLUMNS FROM  `go_cache` WHERE `Field` = 'user_id';
+SHOW COLUMNS FROM  `go_cache` WHERE `Field` = 'key';
+SHOW COLUMNS FROM  `go_cache` WHERE `Field` = 'mtime';
+ALTER TABLE `go_cache` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+SET foreign_key_checks = 1;
+Excuting query: ALTER TABLE `em_accounts` ADD `full_reply_headers` BOOLEAN NOT NULL DEFAULT FALSE;
+Excuting query: ALTER TABLE `ab_sent_mailings` CHANGE `subject` `subject` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;
+Excuting query: UPDATE cal_events SET timezone = (SELECT timezone FROM go_users WHERE id = 1) WHERE user_id = 0;
+Excuting query: ALTER TABLE `cal_exceptions` ADD `user_id` INT NOT NULL DEFAULT '0' AFTER `exception_event_id`, ADD `muser_id` INT NOT NULL DEFAULT '0' AFTER `user_id`, ADD `ctime` INT NOT NULL DEFAULT '0' AFTER `muser_id`, ADD `mtime` INT NOT NULL DEFAULT '0' AFTER `ctime`;
+Excuting query: UPDATE cal_events SET timezone = (SELECT timezone FROM go_users WHERE id = 1) WHERE user_id = 0;
+Excuting query: UPDATE cal_events SET timezone = (SELECT timezone FROM go_users WHERE id = 1) WHERE timezone = "";
+Excuting query: ALTER TABLE `go_users` ADD `last_password_change` INT NOT NULL DEFAULT '0';
+Excuting query: CREATE TABLE IF NOT EXISTS `ab_settings` (
+  `user_id` int(11) NOT NULL,
+  `default_addressbook_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+Excuting query: ALTER TABLE `go_users` ADD `force_password_change` BOOLEAN NOT NULL DEFAULT FALSE;
+Excuting query: CREATE TABLE `go_clients` (
+  `id` int(11) NOT NULL,
+  `footprint` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `ip` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_agent` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ctime` int(11) NOT NULL,
+  `last_active` int(11) NOT NULL,
+  `in_use` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+Excuting query: ALTER TABLE `go_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_footprint` (`footprint`);
+Excuting query: ALTER TABLE `go_clients`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+Excuting query: ALTER TABLE `go_clients` CHANGE `footprint` `footprint` VARCHAR(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+Excuting query: ALTER TABLE `go_users` CHANGE `email2` `recovery_email` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+Excuting query: UPDATE `go_users` SET `recovery_email`=`email` WHERE `recovery_email`='' OR `recovery_email` IS NULL;
+Excuting query: ALTER TABLE `cal_events` CHANGE `reminder` `reminder` INT(11) NULL DEFAULT NULL;
+Excuting query: UPDATE `cal_events` SET `reminder` = NULL WHERE `reminder`=0;
+Excuting query: ALTER TABLE `cal_settings` CHANGE `reminder` `reminder` INT(11) NULL DEFAULT NULL;
+Excuting query: UPDATE `cal_settings` SET `reminder` = NULL WHERE `reminder`=0;
+Excuting query: ALTER TABLE `fs_folders` CHANGE `parent_id` `parent_id` INT(11) NOT NULL DEFAULT '0';
+Database updated to version 20170620
+Removing cached javascripts...
+
+All Done!
+</pre><br /><br /><a href="/index.php?r=maintenance/upgrade">Continuar</a>

@@ -1,0 +1,1 @@
+a:1:{s:14:"cf_category_id";a:7:{s:4:"type";i:1;s:8:"required";b:0;s:6:"length";i:0;s:6:"gotype";s:0:"";s:7:"default";s:0:"";s:6:"dbtype";s:3:"int";s:4:"null";b:0;}}

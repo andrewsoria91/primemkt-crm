@@ -1,0 +1,1 @@
+a:5:{s:20:"GO\Base\Model\Module";a:0:{}s:26:"GO\Calendar\Model\Calendar";a:1:{i:0;s:12:"displayColor";}s:21:"GO\Summary\Model\Note";a:0:{}s:19:"GO\Base\Model\Group";a:0:{}s:18:"GO\Base\Model\User";a:4:{i:0;s:23:"generatedRandomPassword";i:1;s:15:"passwordConfirm";i:2;s:19:"skip_contact_update";i:3;s:10:"contact_id";}}

@@ -1,0 +1,21 @@
+#!/usr/bin/php
+Database connection established. Database is empty
+Installing module comments
+Installing module email
+Installing module users
+Installing module modules
+Installing module tasks
+Installing module calendar
+Installing module customfields
+Installing module addressbook
+Installing module demodata
+Installing module cron
+Installing module summary
+Installing module sieve
+Installing module groups
+Installing module files
+Installing module search
+Installing module notes
+Installing module tools
+Installing module bookmarks
+Database created successfully
